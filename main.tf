@@ -25,7 +25,6 @@ data "google_client_config" "current" {
 #tfsec:ignore:google-gke-enable-network-policy
 #tfsec:ignore:google-gke-enable-master-networks
 #tfsec:ignore:google-gke-enable-master-networks
-
 resource "google_container_cluster" "primary" {
   count                    = var.google_container_cluster_enabled && var.module_enabled ? 1 : 0
   name                     = format("%s", module.labels.id)
@@ -35,8 +34,6 @@ resource "google_container_cluster" "primary" {
   remove_default_node_pool = var.remove_default_node_pool
   initial_node_count       = var.initial_node_count
   min_master_version       = var.min_master_version
-  #  project                  = data.google_client_config.current.project
-
 }
 
 #####==============================================================================
