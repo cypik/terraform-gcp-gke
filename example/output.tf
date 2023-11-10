@@ -1,10 +1,10 @@
 output "cluster_name" {
-  value       = module.gke.*.cluster_name
+  value       = module.gke[*].cluster_name
   description = "an identifier for the resource with format"
 }
 
 output "id" {
-  value       = module.gke.*.id
+  value       = module.gke[*].id
   description = "an identifier for the resource with format"
 }
 

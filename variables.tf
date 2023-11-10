@@ -58,12 +58,6 @@ variable "initial_node_count" {
   description = "The number of nodes to create in this cluster's default node pool."
 }
 
-variable "node_count" {
-  type        = number
-  default     = 1
-  description = "The number of nodes to create in this cluster's default node pool."
-}
-
 variable "service_account" {
   type        = string
   default     = ""
@@ -139,12 +133,6 @@ variable "kubectl_config_path" {
   description = "Path to the kubectl config file. Defaults to $HOME/.kube/config"
   type        = string
   default     = ""
-}
-
-variable "project_id" {
-  type        = string
-  default     = ""
-  description = "Google Cloud project ID"
 }
 
 variable "region" {

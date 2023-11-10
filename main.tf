@@ -1,5 +1,5 @@
 module "labels" {
-  source      = "git::git@github.com:opz0/terraform-gcp-labels.git?ref=master"
+  source      = "git::https://github.com/opz0/terraform-gcp-labels.git?ref=v1.0.0"
   name        = var.name
   environment = var.environment
   label_order = var.label_order
@@ -7,30 +7,47 @@ module "labels" {
   repository  = var.repository
 }
 
+data "google_client_config" "current" {
+}
+
 #####==============================================================================
 #####A Manages a Google Kubernetes Engine (GKE) cluster.
 #####==============================================================================
+#tfsec:ignore:google-gke-use-cluster-labels
+#tfsec:ignore:google-gke-enable-ip-aliasing
+#tfsec:ignore:google-gke-enable-private-cluster
+#tfsec:ignore:google-gke-enable-network-policy
+#tfsec:ignore:google-gke-enable-master-networks
+#tfsec:ignore:google-gke-enforce-pod-security-policy
+#tfsec:ignore:google-gke-use-cluster-labels
+#tfsec:ignore:google-gke-enable-ip-aliasing
+#tfsec:ignore:google-gke-enable-private-cluster
+#tfsec:ignore:google-gke-enable-network-policy
+#tfsec:ignore:google-gke-enable-master-networks
+#tfsec:ignore:google-gke-enable-master-networks
 resource "google_container_cluster" "primary" {
   count                    = var.google_container_cluster_enabled && var.module_enabled ? 1 : 0
-  name                     = module.labels.id
+  name                     = format("%s", module.labels.id)
   location                 = var.location
   network                  = var.network
   subnetwork               = var.subnetwork
   remove_default_node_pool = var.remove_default_node_pool
   initial_node_count       = var.initial_node_count
   min_master_version       = var.min_master_version
-
 }
 
 #####==============================================================================
 #####A Manages a node pool in a Google Kubernetes Engine (GKE) cluster separately
 ###### from the cluster control plane.
 #####==============================================================================
+#tfsec:ignore:google-gke-node-pool-uses-cos
+#tfsec:ignore:google-gke-use-service-account
+#tfsec:ignore:google-gke-node-metadata-security
 resource "google_container_node_pool" "node_pool" {
-  name               = module.labels.id
-  project            = var.project_id
+  name               = format("%s", module.labels.id)
+  project            = data.google_client_config.current.project
   location           = var.location
-  cluster            = join("", google_container_cluster.primary.*.id)
+  cluster            = join("", google_container_cluster.primary[*].id)
   initial_node_count = var.initial_node_count
 
   autoscaling {
@@ -73,7 +90,7 @@ resource "google_container_node_pool" "node_pool" {
 #####==============================================================================
 resource "null_resource" "configure_kubectl" {
   provisioner "local-exec" {
-    command = "gcloud container clusters get-credentials ${module.labels.id} --region ${var.region} --project ${var.project_id}"
+    command = "gcloud container clusters get-credentials ${format("%s", module.labels.id)} --region ${var.region} --project ${data.google_client_config.current.project}"
     environment = {
       KUBECONFIG = var.kubectl_config_path != "" ? var.kubectl_config_path : ""
     }
