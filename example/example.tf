@@ -1,5 +1,5 @@
 provider "google" {
-  project = "cypik-397319"
+  project = "local-concord-408802"
   region  = "asia-northeast1"
   zone    = "asia-northeast1-a"
 }
@@ -19,11 +19,10 @@ module "vpc" {
 ####==============================================================================
 module "subnet" {
   source        = "git::https://github.com/cypik/terraform-gcp-subnet.git?ref=v1.0.0"
-  name          = "app"
-  environment   = "test"
+  subnet_names  = ["subnet-a"]
   gcp_region    = "asia-northeast1"
   network       = module.vpc.vpc_id
-  ip_cidr_range = "10.10.0.0/16"
+  ip_cidr_range = ["10.10.1.0/24"]
 }
 
 ####==============================================================================
@@ -33,7 +32,7 @@ module "firewall" {
   source        = "git::https://github.com/cypik/terraform-gcp-firewall.git?ref=v1.0.0"
   name          = "app"
   environment   = "test"
-  network       = module.vpc.self_link
+  network       = module.vpc.vpc_id
   source_ranges = ["0.0.0.0/0"]
 
   allow = [
@@ -67,7 +66,7 @@ module "gke" {
   image_type         = "UBUNTU_CONTAINERD"
   location           = "asia-northeast1"
   min_master_version = "1.27.3-gke.100"
-  service_account    = ""
+  service_account    = module.service-account.account_email
   initial_node_count = 1
   min_node_count     = 1
   max_node_count     = 1

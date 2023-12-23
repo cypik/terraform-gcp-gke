@@ -13,15 +13,11 @@ output "endpoint" {
   description = "The IP address of this cluster's Kubernetes master."
 }
 
-output "cluster_ca_certificate" {
-  value       = module.gke.cluster_ca_certificate
-  description = "Base64 encoded public certificate that is the root certificate of the cluster."
-}
-
 output "self_link" {
   value       = module.gke.self_link
   description = "The server-defined URL for the resource."
 }
+
 output "label_fingerprint" {
   value       = module.gke.label_fingerprint
   description = "an identifier for the resource with format"
@@ -65,4 +61,20 @@ output "node_id" {
 output "instance_group_urls" {
   value       = module.gke.instance_group_urls
   description = "The resource URLs of the managed instance groups associated with this node pool."
+}
+
+output "cluster_ca_certificate" {
+  value       = module.gke.cluster_ca_certificate
+  description = "Base64 encoded public certificate that is the root certificate of the cluster."
+}
+
+output "client_certificate" {
+  value       = module.gke.client_certificate
+  description = "Base64 encoded public certificate used by clients to authenticate to the cluster endpoint."
+}
+
+output "client_key" {
+  value       = module.gke.client_key
+  sensitive   = true
+  description = "Base64 encoded private key used by clients to authenticate to the cluster endpoint."
 }

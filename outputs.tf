@@ -33,11 +33,6 @@ output "endpoint" {
   description = "The IP address of this cluster's Kubernetes master."
 }
 
-output "cluster_ca_certificate" {
-  value       = join("", google_container_cluster.primary[*].id)
-  description = "Base64 encoded public certificate that is the root certificate of the cluster."
-}
-
 output "cluster_location" {
   value       = join("", google_container_cluster.primary[*].location)
   description = "Location of the GKE cluster that GitLab is deployed in."
@@ -66,4 +61,19 @@ output "node_id" {
 output "instance_group_urls" {
   value       = google_container_node_pool.node_pool[*].instance_group_urls
   description = "The resource URLs of the managed instance groups associated with this node pool."
+}
+
+output "cluster_ca_certificate" {
+  value       = google_container_cluster.primary[0].master_auth[0].cluster_ca_certificate
+  description = "Base64 encoded public certificate that is the root certificate of the cluster."
+}
+
+output "client_certificate" {
+  value       = google_container_cluster.primary[0].master_auth[0].client_certificate
+  description = "Base64 encoded public certificate used by clients to authenticate to the cluster endpoint."
+}
+
+output "client_key" {
+  value       = google_container_cluster.primary[0].master_auth[0].client_key
+  description = "Base64 encoded private key used by clients to authenticate to the cluster endpoint."
 }

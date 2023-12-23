@@ -22,7 +22,7 @@ module "gke" {
   image_type         = "UBUNTU_CONTAINERD"
   location           = "asia-northeast1"
   min_master_version = "1.27.3-gke.100"
-  service_account    = ""
+  service_account    = module.service-account.account_email
   initial_node_count = 1
   min_node_count     = 1
   max_node_count     = 1
@@ -45,7 +45,7 @@ This example demonstrates how to create various GCP resources using the provided
 - 'initial_node_count' : The number of nodes to create in this cluster's default node pool.
 - 'min_node_count' : Minimum number of nodes per zone in the NodePool.
 - 'max_node_count' :  Maximum number of nodes per zone in the NodePool.
--'disk_size_gb' : Size of the disk attached to each node, specified in GB.
+- 'disk_size_gb' : Size of the disk attached to each node, specified in GB.
 - 'network' :  The name or self_link of the Google Compute Engine network to which the cluster is connected.
 - 'subnetwork' :  The name or self_link of the Google Compute Engine subnetwork in which the cluster's instances are launched.
 
