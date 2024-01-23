@@ -1,5 +1,6 @@
 module "labels" {
-  source      = "git::https://github.com/cypik/terraform-gcp-labels.git?ref=v1.0.0"
+  source      = "cypik/labels/google"
+  version     = "1.0.1"
   name        = var.name
   environment = var.environment
   label_order = var.label_order
@@ -26,7 +27,7 @@ data "google_client_config" "current" {
 #tfsec:ignore:google-gke-enable-master-networks
 #tfsec:ignore:google-gke-enable-master-networks
 resource "google_container_cluster" "primary" {
-  count                    = var.google_container_cluster_enabled && var.module_enabled ? 1 : 0
+  count                    = var.cluster_enabled && var.module_enabled ? 1 : 0
   name                     = format("%s", module.labels.id)
   location                 = var.location
   network                  = var.network
@@ -74,14 +75,11 @@ resource "google_container_node_pool" "node_pool" {
     ignore_changes = [initial_node_count]
     #    create_before_destroy = false
   }
-
   timeouts {
     create = var.cluster_create_timeouts
     update = var.cluster_update_timeouts
     delete = var.cluster_delete_timeouts
   }
-
-
 }
 
 #####==============================================================================
@@ -96,5 +94,4 @@ resource "null_resource" "configure_kubectl" {
     }
   }
   depends_on = [google_container_node_pool.node_pool]
-
 }
