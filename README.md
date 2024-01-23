@@ -129,6 +129,6 @@ This project is licensed under the **MIT** License - see the [LICENSE](https://g
 | <a name="output_master_version"></a> [master\_version](#output\_master\_version) | The current version of the master in the cluster. |
 | <a name="output_node_id"></a> [node\_id](#output\_node\_id) | An identifier for the resource with format. |
 | <a name="output_self_link"></a> [self\_link](#output\_self\_link) | The server-defined URL for the resource. |
-| <a name="output_services_ipv4_cidr"></a> [services\_ipv4\_cidr](#output\_services\_ipv4\_cidr) | - The IP address range of the Kubernetes services in this cluster |
+| <a name="output_services_ipv4_cidr"></a> [services\_ipv4\_cidr](#output\_services\_ipv4\_cidr) | The IP address range of the Kubernetes services in this cluster |
 | <a name="output_tpu_ipv4_cidr_block"></a> [tpu\_ipv4\_cidr\_block](#output\_tpu\_ipv4\_cidr\_block) | The IP address range of the Cloud TPUs in this cluster, |
 <!-- END_TF_DOCS -->
