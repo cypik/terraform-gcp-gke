@@ -18,13 +18,13 @@ variable "label_order" {
 
 variable "managedby" {
   type        = string
-  default     = ""
+  default     = "cypik"
   description = "ManagedBy, eg 'cypik'."
 }
 
 variable "repository" {
   type        = string
-  default     = "https://github.com/cypik/terraform-gcp-gke"
+  default     = "https://github.com/cypik/terraform-google-gke"
   description = "Terraform current module repo"
 }
 
@@ -34,7 +34,7 @@ variable "module_enabled" {
   description = "Flag to control the service_account_enabled creation."
 }
 
-variable "google_container_cluster_enabled" {
+variable "cluster_enabled" {
   type        = bool
   default     = true
   description = "Flag to control the cluster_enabled creation."
@@ -65,68 +65,81 @@ variable "service_account" {
 }
 
 variable "min_node_count" {
-  type    = number
-  default = 0
+  type        = number
+  default     = 1
+  description = "Minimum number of nodes in the cluster."
 }
 
 variable "max_node_count" {
-  type    = number
-  default = 0
+  type        = number
+  default     = 1
+  description = "Maximum number of nodes in the cluster."
 }
 
 variable "location_policy" {
-  type    = string
-  default = "BALANCED"
+  type        = string
+  default     = "BALANCED"
+  description = "Specifies the policy for distributing nodes across locations, with the default being BALANCED"
 }
 
 variable "auto_repair" {
-  type    = bool
-  default = true
+  type        = bool
+  default     = true
+  description = "Enables or disables automatic repair of nodes in the cluster."
 }
 
 variable "auto_upgrade" {
-  type    = bool
-  default = true
+  type        = bool
+  default     = true
+  description = "Enables or disables automatic upgrades of nodes in the cluster."
 }
 
 variable "image_type" {
-  type    = string
-  default = ""
+  type        = string
+  default     = ""
+  description = "Type of image to use for the nodes in the cluster."
 }
 
 variable "machine_type" {
-  type    = string
-  default = ""
+  type        = string
+  default     = ""
+  description = "Specifies the machine type for the nodes in the cluster."
 }
 
 variable "disk_size_gb" {
-  type    = number
-  default = 0
+  type        = number
+  default     = 10
+  description = " Size of the disk in gigabytes for each node in the cluster."
 }
 
 variable "disk_type" {
-  type    = string
-  default = ""
+  type        = string
+  default     = ""
+  description = " Type of disk to use for the nodes in the cluster."
 }
 
 variable "preemptible" {
-  type    = bool
-  default = false
+  type        = bool
+  default     = false
+  description = "Specifies whether the nodes in the cluster should be preemptible."
 }
 
 variable "cluster_create_timeouts" {
-  type    = string
-  default = "30m"
+  type        = string
+  default     = "30m"
+  description = "Timeout for creating the cluster."
 }
 
 variable "cluster_update_timeouts" {
-  type    = string
-  default = "30m"
+  type        = string
+  default     = "30m"
+  description = "Timeout for updating the cluster."
 }
 
 variable "cluster_delete_timeouts" {
-  type    = string
-  default = "30m"
+  type        = string
+  default     = "30m"
+  description = "Timeout for deleting the cluster."
 }
 
 variable "kubectl_config_path" {
