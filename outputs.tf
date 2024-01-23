@@ -45,7 +45,7 @@ output "tpu_ipv4_cidr_block" {
 
 output "services_ipv4_cidr" {
   value       = join("", google_container_cluster.primary[*].services_ipv4_cidr)
-  description = "- The IP address range of the Kubernetes services in this cluster"
+  description = " The IP address range of the Kubernetes services in this cluster"
 }
 
 output "cluster_autoscaling" {
