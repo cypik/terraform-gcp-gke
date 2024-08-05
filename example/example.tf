@@ -1,5 +1,5 @@
 provider "google" {
-  project = "local-concord-408802"
+  project = "ram-ops"
   region  = "asia-northeast1"
   zone    = "asia-northeast1-a"
 }
@@ -69,16 +69,17 @@ module "gke" {
   source             = "../"
   name               = "app"
   environment        = "test"
+  machine_type       = "e2-medium"
   region             = "asia-northeast1"
   image_type         = "UBUNTU_CONTAINERD"
-  location           = "asia-northeast1"
-  min_master_version = "1.27.3-gke.100"
+  location           = "asia-northeast1-a"
+  min_master_version = "1.29.6-gke.1038001"
   network            = module.vpc.vpc_id
   subnetwork         = module.subnet.subnet_id
   service_account    = module.service-account.account_email
   initial_node_count = 1
   min_node_count     = 1
-  max_node_count     = 1
+  max_node_count     = 5
   disk_size_gb       = 20
   cluster_enabled    = true
 }
