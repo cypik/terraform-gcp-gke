@@ -70,7 +70,6 @@ module "gke" {
   name               = "app"
   environment        = "test"
   machine_type       = "e2-medium"
-  region             = "asia-northeast1"
   image_type         = "UBUNTU_CONTAINERD"
   location           = "asia-northeast1-a"
   min_master_version = "1.29.6-gke.1038001"

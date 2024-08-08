@@ -19,10 +19,9 @@ To use this module, you should have Terraform installed and configured for GCP. 
 module "gke" {
   source             = "cypik/gke/google"
   version            = "1.0.1"
-  name               = "app"
+  name               = "cypik"
   environment        = "test"
   machine_type       = "e2-medium"
-  region             = "asia-northeast1"
   image_type         = "UBUNTU_CONTAINERD"
   location           = "asia-northeast1-a"
   min_master_version = "1.29.6-gke.1038001"
@@ -106,7 +105,6 @@ This project is licensed under the **MIT** License - see the [LICENSE](https://g
 | <a name="input_name"></a> [name](#input\_name) | Name of the resource. Provided by the client when the resource is created. | `string` | `"test"` | no |
 | <a name="input_network"></a> [network](#input\_network) | A reference (self link) to the VPC network to host the cluster in | `string` | `""` | no |
 | <a name="input_preemptible"></a> [preemptible](#input\_preemptible) | Specifies whether the nodes in the cluster should be preemptible. | `bool` | `false` | no |
-| <a name="input_region"></a> [region](#input\_region) | Google Cloud region | `string` | `"asia-northeast1"` | no |
 | <a name="input_remove_default_node_pool"></a> [remove\_default\_node\_pool](#input\_remove\_default\_node\_pool) | deletes the default node pool upon cluster creation. | `bool` | `true` | no |
 | <a name="input_repository"></a> [repository](#input\_repository) | Terraform current module repo | `string` | `"https://github.com/cypik/terraform-google-gke"` | no |
 | <a name="input_service_account"></a> [service\_account](#input\_service\_account) | The Google Cloud Platform Service Account to be used by the node VMs created by GKE Autopilot or NAP. | `string` | `""` | no |

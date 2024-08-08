@@ -148,12 +148,6 @@ variable "kubectl_config_path" {
   default     = ""
 }
 
-variable "region" {
-  type        = string
-  default     = "asia-northeast1"
-  description = "Google Cloud region"
-}
-
 variable "network" {
   type        = string
   default     = ""
