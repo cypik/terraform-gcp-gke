@@ -26,15 +26,25 @@ data "google_client_config" "current" {
 #tfsec:ignore:google-gke-enable-network-policy
 #tfsec:ignore:google-gke-enable-master-networks
 #tfsec:ignore:google-gke-enable-master-networks
+#tfsec:ignore:google-gke-node-metadata-security
 resource "google_container_cluster" "primary" {
   count                    = var.cluster_enabled && var.module_enabled ? 1 : 0
   name                     = format("%s", module.labels.id)
-  location                 = var.location
   network                  = var.network
   subnetwork               = var.subnetwork
+  location                 = var.location
   remove_default_node_pool = var.remove_default_node_pool
   initial_node_count       = var.initial_node_count
   min_master_version       = var.min_master_version
+
+  node_config {
+    preemptible  = true
+    machine_type = var.machine_type
+  }
+
+  lifecycle {
+    ignore_changes = [initial_node_count]
+  }
 }
 
 #####==============================================================================
@@ -72,8 +82,8 @@ resource "google_container_node_pool" "node_pool" {
   }
 
   lifecycle {
-    ignore_changes = [initial_node_count]
-    #    create_before_destroy = false
+    ignore_changes        = [initial_node_count]
+    create_before_destroy = false
   }
   timeouts {
     create = var.cluster_create_timeouts
@@ -88,7 +98,7 @@ resource "google_container_node_pool" "node_pool" {
 #####==============================================================================
 resource "null_resource" "configure_kubectl" {
   provisioner "local-exec" {
-    command = "gcloud container clusters get-credentials ${format("%s", module.labels.id)} --region ${var.region} --project ${data.google_client_config.current.project}"
+    command = "gcloud container clusters get-credentials ${format("%s", module.labels.id)} --zone ${var.location} --project ${data.google_client_config.current.project}"
     environment = {
       KUBECONFIG = var.kubectl_config_path != "" ? var.kubectl_config_path : ""
     }

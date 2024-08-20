@@ -18,19 +18,19 @@ To use this module, you should have Terraform installed and configured for GCP. 
 ```hcl
 module "gke" {
   source             = "cypik/gke/google"
-  version            = "1.0.0"
-  name               = "app"
+  version            = "1.0.1"
+  name               = "cypik"
   environment        = "test"
-  region             = "asia-northeast1"
+  machine_type       = "e2-medium"
   image_type         = "UBUNTU_CONTAINERD"
-  location           = "asia-northeast1"
-  min_master_version = "1.27.3-gke.100"
+  location           = "asia-northeast1-a"
+  min_master_version = "1.29.6-gke.1038001"
   network            = module.vpc.vpc_id
   subnetwork         = module.subnet.subnet_id
   service_account    = module.service-account.account_email
   initial_node_count = 1
   min_node_count     = 1
-  max_node_count     = 1
+  max_node_count     = 5
   disk_size_gb       = 20
   cluster_enabled    = true
 }
@@ -91,7 +91,7 @@ This project is licensed under the **MIT** License - see the [LICENSE](https://g
 | <a name="input_disk_type"></a> [disk\_type](#input\_disk\_type) | Type of disk to use for the nodes in the cluster. | `string` | `""` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment (e.g. `prod`, `dev`, `staging`). | `string` | `""` | no |
 | <a name="input_image_type"></a> [image\_type](#input\_image\_type) | Type of image to use for the nodes in the cluster. | `string` | `""` | no |
-| <a name="input_initial_node_count"></a> [initial\_node\_count](#input\_initial\_node\_count) | The number of nodes to create in this cluster's default node pool. | `number` | `1` | no |
+| <a name="input_initial_node_count"></a> [initial\_node\_count](#input\_initial\_node\_count) | The number of nodes to create in this cluster's default node pool. | `number` | `0` | no |
 | <a name="input_kubectl_config_path"></a> [kubectl\_config\_path](#input\_kubectl\_config\_path) | Path to the kubectl config file. Defaults to $HOME/.kube/config | `string` | `""` | no |
 | <a name="input_label_order"></a> [label\_order](#input\_label\_order) | Label order, e.g. sequence of application name and environment `name`,`environment`,'attribute' [`webserver`,`qa`,`devops`,`public`,] . | `list(any)` | <pre>[<br>  "name",<br>  "environment"<br>]</pre> | no |
 | <a name="input_location"></a> [location](#input\_location) | The location (region or zone) in which the cluster master will be created, as well as the default node location. | `string` | `""` | no |
@@ -105,7 +105,6 @@ This project is licensed under the **MIT** License - see the [LICENSE](https://g
 | <a name="input_name"></a> [name](#input\_name) | Name of the resource. Provided by the client when the resource is created. | `string` | `"test"` | no |
 | <a name="input_network"></a> [network](#input\_network) | A reference (self link) to the VPC network to host the cluster in | `string` | `""` | no |
 | <a name="input_preemptible"></a> [preemptible](#input\_preemptible) | Specifies whether the nodes in the cluster should be preemptible. | `bool` | `false` | no |
-| <a name="input_region"></a> [region](#input\_region) | Google Cloud region | `string` | `"asia-northeast1"` | no |
 | <a name="input_remove_default_node_pool"></a> [remove\_default\_node\_pool](#input\_remove\_default\_node\_pool) | deletes the default node pool upon cluster creation. | `bool` | `true` | no |
 | <a name="input_repository"></a> [repository](#input\_repository) | Terraform current module repo | `string` | `"https://github.com/cypik/terraform-google-gke"` | no |
 | <a name="input_service_account"></a> [service\_account](#input\_service\_account) | The Google Cloud Platform Service Account to be used by the node VMs created by GKE Autopilot or NAP. | `string` | `""` | no |

@@ -54,7 +54,7 @@ variable "remove_default_node_pool" {
 
 variable "initial_node_count" {
   type        = number
-  default     = 1
+  default     = 0
   description = "The number of nodes to create in this cluster's default node pool."
 }
 
@@ -146,12 +146,6 @@ variable "kubectl_config_path" {
   description = "Path to the kubectl config file. Defaults to $HOME/.kube/config"
   type        = string
   default     = ""
-}
-
-variable "region" {
-  type        = string
-  default     = "asia-northeast1"
-  description = "Google Cloud region"
 }
 
 variable "network" {
